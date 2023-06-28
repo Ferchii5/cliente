@@ -1,23 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from "react"
+import axios from "axios";
 
 function App() {
+
+const [nombre,setNombre] =useState("");
+const [precio,setPrecio] =useState(0);
+const [codigo_fabricante,setcodigo_fabricante] =useState("");
+
+const add =()=>{
+  axios.post("http://localhost:3001/create",{
+    nombre:nombre,
+    precio: precio,
+    codigo_fabricante: codigo_fabricante
+  }).then (()=>{
+    alert("producto agregado");
+  });
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="datos">
+        <label>Nombre producto: <input 
+        onChange={(event)=>{
+          setNombre(event.target.value)
+        }}
+        type="text"/></label>
+        <label>Precio: <input 
+        onChange={(event)=>{
+          setPrecio(event.target.value)
+        }}
+        type="number"/></label>
+        <label>Fabricante: <input
+        onChange={(event)=>{
+          setcodigo_fabricante(event.target.value)
+        }}
+         type="text"/></label>
+        <button onClick={add}>Guardar</button>
+      </div>
     </div>
   );
 }
