@@ -70,6 +70,40 @@ input[type="number"] {
   flex-direction: column;
   align-items: center;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.page-item {
+  margin: 0 2px;
+}
+
+.page-link {
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.page-link:hover {
+  background-color: #f0f0f0;
+}
+
+.active .page-link {
+  background-color: #f74780;
+  color: #fff;
+  border-color: #f74780;
+}
+
+.disabled .page-link {
+  pointer-events: none;
+  opacity: 0.5;
+}
 
 .content-container {
   display: flex;

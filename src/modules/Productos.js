@@ -1,3 +1,4 @@
+import ReactPaginate from 'react-paginate';
 import '../App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -18,6 +19,9 @@ function Productos() {
   const [fabricantesList, setFabricantesList] = useState([]);
   const [productosFiltrados, setProductosFiltrados] = useState([]);
   const [busqueda, setBusqueda] = useState('');
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5; 
 
   useEffect(() => {
     getProductos();
@@ -91,15 +95,18 @@ function Productos() {
   };
 
   const filtrarProductos = () => {
-    const productosFiltrados = productosList.filter((producto) => {
-      return producto.nombre.toLowerCase().includes(busqueda.toLowerCase());
-    });
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const productosFiltrados = productosList
+      .filter((producto) => producto.nombre.toLowerCase().includes(busqueda.toLowerCase()))
+      .slice(startIndex, endIndex);
+
     setProductosFiltrados(productosFiltrados);
   };
 
   useEffect(() => {
     filtrarProductos();
-  }, [busqueda, productosList]);
+  }, [busqueda, productosList, currentPage]);
 
   return (
     <div className="container">
@@ -219,6 +226,14 @@ function Productos() {
               ))}
             </tbody>
           </table>
+          <ReactPaginate
+            previousLabel={'Anterior'}
+            nextLabel={'Siguiente'}
+            pageCount={Math.ceil(productosList.length / itemsPerPage)}
+            onPageChange={({ selected }) => setCurrentPage(selected)}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+          />
         </div>
       </div>
 
